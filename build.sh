@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Requires: Node 20+, JDK 21, Android SDK (ANDROID_HOME set, platform 35 + build-tools). Android Studio provides all of these.
+# Requires: Node 22+, JDK 21, Android SDK (ANDROID_HOME set, platform 36 + build-tools 36). Android Studio provides all of these.
 set -euo pipefail
 npm install
 [ -d android ] || npx cap add android
