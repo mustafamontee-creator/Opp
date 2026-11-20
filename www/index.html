@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#15803d"><link rel="icon" href="icon.svg"><link rel="apple-touch-icon" href="icon-192.png">
+<title>المحتال FC</title>
+<style>
+:root{--bg:#f4f6f3;--sf:#fff;--bd:#d5dcd2;--tx:#14201a;--mu:#53625a;--ac:#15803d;--on:#fff;--dg:#b91c1c;--r:14px;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1713;--sf:#18241e;--bd:#2d3d34;--tx:#eef3ee;--mu:#a4b3a9;--ac:#4ade80;--on:#052e14;--dg:#f87171}}
+:root[data-theme="dark"]{--bg:#0f1713;--sf:#18241e;--bd:#2d3d34;--tx:#eef3ee;--mu:#a4b3a9;--ac:#4ade80;--on:#052e14;--dg:#f87171}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,"Segoe UI",Tahoma,sans-serif}
+main{max-width:480px;margin:0 auto;padding:20px 16px 40px}
+h1{font-size:28px;margin:8px 0}h2{font-size:20px;margin:0 0 12px}p{margin:6px 0;color:var(--mu)}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:16px;margin:12px 0}
+button{font:inherit;min-height:48px;border-radius:12px;border:1px solid var(--bd);background:var(--sf);color:var(--tx);padding:0 16px;cursor:pointer}
+button.p{background:var(--ac);color:var(--on);border-color:var(--ac);font-weight:700;width:100%}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+button:disabled{opacity:.5}
+input[type=text]{font:inherit;width:100%;min-height:44px;margin:4px 0;padding:0 12px;border-radius:10px;border:1px solid var(--bd);background:var(--bg);color:var(--tx)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:10px 0}
+.step button{width:44px;padding:0;font-size:20px}.step b{min-width:28px;text-align:center}
+.big{font-size:34px;font-weight:800;text-align:center;margin:20px 0}
+.imp{color:var(--dg)}.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:40px;padding:0 12px}.chip[aria-pressed=true]{background:var(--ac);color:var(--on);border-color:var(--ac)}
+.opt{display:block;width:100%;text-align:start;margin:6px 0}
+table{width:100%;border-collapse:collapse}td{padding:8px 4px;border-bottom:1px solid var(--bd)}
+.timer{font-size:44px;text-align:center;font-weight:800;font-variant-numeric:tabular-nums}
+</style>
+</head>
+<body><main id="app"></main>
+<script>
+var PACKS={
+"أساطير":["Pelé|F","Maradona|M","Zidane|M","Ronaldinho|M","Cruyff|F","Henry|F","Xavi|M","Iniesta|M","Maldini|D","Buffon|G","Ronaldo Nazário|F","Beckenbauer|D","Platini|M","Baggio|F","Kaká|M","Figo|M","Puyol|D","Zanetti|M","Shevchenko|F","Casillas|G"],
+"الدوري الإنجليزي":["Salah|F","Haaland|F","De Bruyne|M","Rodri|M","Saka|F","Van Dijk|D","Rice|M","Son|F","Kane|F","Alisson|G","Foden|M","Palmer|M","Rooney|F","Gerrard|M","Lampard|M","Vardy|F","Agüero|F","Kompany|D","Drogba|F","Cantona|F"],
+"الليغا":["Messi|F","Ronaldo|F","Modrić|M","Vinícius|F","Bellingham|M","Lewandowski|F","Yamal|F","Pedri|M","Courtois|G","Griezmann|F","Benzema|F","Ramos|D","Suárez|F","Busquets|M","Piqué|D","Raúl|F","Oblak|G","Carvajal|D","Gavi|M","Rodrygo|F"],
+"إيطاليا وألمانيا وفرنسا":["Totti|F","Pirlo|M","Neuer|G","Müller|F","Kroos|M","Mbappé|F","Del Piero|F","Cannavaro|D","Lahm|D","Kanté|M","Osimhen|F","Chiellini|D","Barella|M","Musiala|M","Wirtz|M","Klose|F","Ribéry|F","Giroud|F","Maignan|G","Dembélé|F"],
+"نجوم المونديال":["Mbappé|F","Messi|F","Neymar|F","Modrić|M","Kane|F","Hakimi|D","Ochoa|G","Pulisic|F","Bounou|G","Ziyech|F","Valverde|M","Griezmann|F","Julián Álvarez|F","Mac Allister|M","E. Martínez|G","Gvardiol|D","Kvaratskhelia|F","Davies|D","Raphinha|F","Cuadrado|M"],
+"عرب وأفارقة":["Salah|F","Mané|F","Hakimi|D","Drogba|F","Eto'o|F","Mahrez|F","Aboutrika|M","Weah|F","Yaya Touré|M","Ziyech|F","Marmoush|F","Diouf|F","Osimhen|F","Mendy|G","Kanouté|F","Essien|M","Aubameyang|F","Koulibaly|D","Trezeguet|F","Elneny|M"],
+"جيل اليوم الشاب":["Yamal|F","Bellingham|M","Musiala|M","Wirtz|M","Gavi|M","Pedri|M","Endrick|F","Haaland|F","Saka|F","Foden|M","Palmer|M","Mainoo|M","Güler|M","Camavinga|M","Tchouaméni|M","Zaire-Emery|M","Garnacho|F","Rodrygo|F","Doku|F","Gvardiol|D"]};
+var POS={F:"مهاجم",M:"وسط",D:"مدافع",G:"حارس مرمى"};
+var K="impfc1",S={scr:"home",n:4,names:[],imp:1,hint:true,rounds:3,mode:"fixed",packs:{"أساطير":1,"الدوري الإنجليزي":1,"الليغا":1,"جيل اليوم الشاب":1},timer:180,r:0,scores:{}},R={};
+try{var sv=JSON.parse(localStorage.getItem(K)||"null");if(sv&&sv.best)S.best=sv.best}catch(e){}
+var EN=[["لعبة خداع كروية لـ 3–15 لاعبًا على جهاز واحد. بلا حسابات وبلا إنترنت وبلا اشتراكات.", "A football bluffing game for 3–15 players on one device. No accounts, no internet, no subscriptions."], ["لكل لاعب تلميح واحد بالدور، ثم ناقشوا بحرية.", "One hint per player in turn, then discuss freely."], ["يتغير عدد المحتالين عشوائيًا في كل جولة.", "The number of impostors changes every round."], ["1. يرى الجميع اسم لاعب كرة إلا المحتال.", "1. Everyone sees a footballer’s name except the impostor."], ["خمّن المحتال اللاعب بشكل صحيح! +2 نقطة.", "The impostor guessed correctly! +2 points."], ["لا تعرف اسم اللاعب. اندمج مع الباقين.", "You don’t know the player. Blend in."], ["2. يلمّح كل واحد للاسم دون أن يذكره.", "2. Each player hints at the name without saying it."], ["3. ناقشوا ثم صوّتوا لكشف المحتال.", "3. Discuss, then vote to expose the impostor."], [". خمّن اللاعب السري لتكسب نقطتين:", ". Guess the secret player for 2 points:"], ["تعادل الأصوات، فنجا المحتال.", "Tied vote, the impostor escaped."], ["تلميح للمحتال (مركز اللاعب)", "Impostor hint (player position)"], ["أخطأ المحتال في التخمين.", "The impostor guessed wrong."], ["إيطاليا وألمانيا وفرنسا", "Italy, Germany & France"], ["لمّح دون أن تكشف الاسم.", "Hint without revealing the name."], ["من هو المحتال برأيك؟", "Who do you think the impostor is?"], ["الحزم (كلها مجانية)", "Packs (all free)"], [" — لم يكن محتالًا ❌", " — not the impostor ❌"], ["أعلى فائز سابقًا: ", "Last winner: "], ["النتيجة النهائية 🏆", "Final result 🏆"], [" — كُشف المحتال! ✅", " — Impostor caught! ✅"], ["أخفِ ومرّر للتالي", "Hide and pass on"], ["الدوري الإنجليزي", "Premier League"], ["الأكثر أصواتًا: ", "Most votes: "], ["جيل اليوم الشاب", "Young stars"], ["مرّر الجهاز إلى", "Pass the device to"], ["نجوم المونديال", "World Cup stars"], ["الجولة التالية", "Next round"], ["نمط المحتالين", "Impostor mode"], ["عدد المحتالين", "Impostors"], ["تلميح: مركزه ", "Hint: position is "], ["اللاعب السري:", "Secret player:"], ["انتقل للتصويت", "Go to voting"], ["كُشف المحتال ", "Impostor caught: "], ["⚽ المحتال FC", "⚽ Impostor FC"], ["إعداد اللعبة", "Game setup"], ["عدد اللاعبين", "Players"], ["روليت عشوائي", "Random roulette"], ["أنت المحتال!", "You are the impostor!"], ["اسم اللاعب ", "Player name "], ["عدد الجولات", "Rounds"], ["مؤقت النقاش", "Discussion timer"], [" د</button>", " min</button>"], ["عرب وأفارقة", "Arab & African"], ["المحتالون: ", "Impostors: "], ["لوحة النقاط", "Scoreboard"], ["ابدأ اللعب", "Start playing"], ["لعبة جديدة", "New game"], ["فرصة أخيرة", "Last chance"], ["كيف تلعب؟", "How to play"], ["اكشف دوري", "Reveal my role"], ["حارس مرمى", "Goalkeeper"], ["شركاؤك: ", "Your partners: "], ["الجولة ", "Round "], ["التصويت", "Voting"], ["النتيجة", "Result"], ["أساطير", "Legends"], ["الليغا", "La Liga"], ["النقاش", "Discussion"], ["يبدأ: ", "Starts: "], ["مفعّل", "On"], ["متوقف", "Off"], ["مهاجم", "Forward"], ["مدافع", "Defender"], ["لاعب ", "Player "], ["أكثر", "More"], ["ثابت", "Fixed"], ["ابدأ", "Start"], [" من ", " of "], ["دور ", "Turn: "], [" صوت", " votes"], ["أقل", "Less"], ["وسط", "Midfielder"]],L="ar";try{L=localStorage.getItem(K+"l")||"ar"}catch(e){}
+function tr(s){EN.forEach(function(p){s=s.split(p[0]).join(p[1])});return s}
+var $=document.getElementById("app"),tI=null;
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function nm(i){return S.names[i]&&S.names[i].trim()||"لاعب "+(i+1)}
+function go(s){S.scr=s;draw()}
+function maxImp(){return Math.max(1,Math.floor((S.n-1)/2))}
+function pool(){var a=[];Object.keys(S.packs).forEach(function(k){if(S.packs[k])a=a.concat(PACKS[k])});return a}
+function newRound(){
+ var p=pool(),pl=p[Math.floor(Math.random()*p.length)].split("|"),k=S.mode=="roulette"?1+Math.floor(Math.random()*maxImp()):Math.min(S.imp,maxImp()),ids=[];
+ while(ids.length<k){var x=Math.floor(Math.random()*S.n);if(ids.indexOf(x)<0)ids.push(x)}
+ R={player:pl[0],pos:POS[pl[1]],ids:ids,i:0,show:false,v:0,votes:[],left:S.timer,first:Math.floor(Math.random()*S.n)};
+ go("reveal")}
+function tick(){clearInterval(tI);tI=setInterval(function(){R.left--;var e=document.getElementById("t");if(e)e.textContent=fmt(R.left);if(R.left<=0){clearInterval(tI);R.v=0;R.votes=[];go("vote")}},1000)}
+function fmt(s){return Math.floor(s/60)+":"+("0"+s%60).slice(-2)}
+function draw(){
+ clearInterval(tI);var h="";
+ if(S.scr=="home")h='<p><button class="chip" data-a="lang">English / عربي</button></p><h1>⚽ المحتال FC</h1><p>لعبة خداع كروية لـ 3–15 لاعبًا على جهاز واحد. بلا حسابات وبلا إنترنت وبلا اشتراكات.</p><div class="card"><h2>كيف تلعب؟</h2><p>1. يرى الجميع اسم لاعب كرة إلا المحتال.<br>2. يلمّح كل واحد للاسم دون أن يذكره.<br>3. ناقشوا ثم صوّتوا لكشف المحتال.</p></div><button class="p" data-a="setup">ابدأ اللعب</button>'+(S.best?'<p>أعلى فائز سابقًا: '+esc(S.best)+'</p>':'');
+ if(S.scr=="setup"){
+  while(S.names.length<S.n)S.names.push("");
+  h='<h2>إعداد اللعبة</h2><div class="card"><div class="row"><span>عدد اللاعبين</span><span class="row step"><button data-a="n-" aria-label="أقل">−</button><b>'+S.n+'</b><button data-a="n+" aria-label="أكثر">+</button></span></div>';
+  for(var i=0;i<S.n;i++)h+='<input type="text" data-i="'+i+'" value="'+esc(S.names[i])+'" placeholder="لاعب '+(i+1)+'" aria-label="اسم اللاعب '+(i+1)+'" maxlength="16">';
+  h+='</div><div class="card"><div class="row"><span>نمط المحتالين</span><span class="chips"><button class="chip" data-a="m-fixed" aria-pressed="'+(S.mode=="fixed")+'">ثابت</button><button class="chip" data-a="m-roulette" aria-pressed="'+(S.mode=="roulette")+'">روليت عشوائي</button></span></div>';
+  if(S.mode=="fixed")h+='<div class="row"><span>عدد المحتالين</span><span class="row step"><button data-a="i-" aria-label="أقل">−</button><b>'+Math.min(S.imp,maxImp())+'</b><button data-a="i+" aria-label="أكثر">+</button></span></div>';
+  if(S.mode=="roulette")h+='<p>يتغير عدد المحتالين عشوائيًا في كل جولة.</p>';
+  h+='<div class="row"><span>تلميح للمحتال (مركز اللاعب)</span><button class="chip" data-a="hint" aria-pressed="'+S.hint+'">'+(S.hint?"مفعّل":"متوقف")+'</button></div>';
+  h+='<div class="row"><span>عدد الجولات</span><span class="row step"><button data-a="r-" aria-label="أقل">−</button><b>'+S.rounds+'</b><button data-a="r+" aria-label="أكثر">+</button></span></div>';
+  h+='<div class="row"><span>مؤقت النقاش</span><span class="chips">'+[60,180,300].map(function(t){return'<button class="chip" data-a="tm-'+t+'" aria-pressed="'+(S.timer==t)+'">'+t/60+' د</button>'}).join("")+'</span></div></div>';
+  h+='<div class="card"><h2>الحزم (كلها مجانية)</h2><div class="chips">'+Object.keys(PACKS).map(function(k){return'<button class="chip" data-a="pk" data-k="'+k+'" aria-pressed="'+!!S.packs[k]+'">'+k+'</button>'}).join("")+'</div></div>';
+  h+='<button class="p" data-a="start" '+(pool().length?'':'disabled')+'>ابدأ</button>'}
+ if(S.scr=="reveal"){
+  var i2=R.i,isI=R.ids.indexOf(i2)>=0;
+  h='<p>الجولة '+(S.r+1)+' من '+S.rounds+'</p>';
+  if(!R.show)h+='<div class="big">مرّر الجهاز إلى<br>'+esc(nm(i2))+'</div><button class="p" data-a="show">اكشف دوري</button>';
+  else{
+   h+='<div class="card">';
+   if(isI){h+='<div class="big imp">أنت المحتال! 🕵️</div><p>لا تعرف اسم اللاعب. اندمج مع الباقين.</p>';
+    if(S.hint)h+='<p>تلميح: مركزه '+R.pos+'.</p>';
+    if(S.mode!="fixed"||R.ids.length>1)h+=R.ids.length>1?'<p>شركاؤك: '+R.ids.filter(function(x){return x!=i2}).map(function(x){return esc(nm(x))}).join("، ")+'</p>':''}
+   else h+='<p>اللاعب السري:</p><div class="big">'+esc(R.player)+'</div><p>لمّح دون أن تكشف الاسم.</p>';
+   h+='</div><button class="p" data-a="next">أخفِ ومرّر للتالي</button>'}}
+ if(S.scr=="discuss"){h='<h2>النقاش</h2><p>يبدأ: <b>'+esc(nm(R.first))+'</b>. لكل لاعب تلميح واحد بالدور، ثم ناقشوا بحرية.</p><div class="timer" id="t">'+fmt(R.left)+'</div><button class="p" data-a="vote">انتقل للتصويت</button>';}
+ if(S.scr=="vote"){
+  h='<h2>التصويت</h2><p>دور <b>'+esc(nm(R.v))+'</b>: من هو المحتال برأيك؟</p>';
+  for(var j=0;j<S.n;j++)if(j!=R.v)h+='<button class="opt" data-a="vt" data-j="'+j+'">'+esc(nm(j))+'</button>'}
+ if(S.scr=="guess"){
+  if(!R.opts){var all=pool().map(function(x){return x.split("|")[0]}).filter(function(x,i,a){return a.indexOf(x)==i&&x!=R.player}),o=[R.player];
+   while(o.length<4&&all.length){o.push(all.splice(Math.floor(Math.random()*all.length),1)[0])}
+   R.opts=o.sort(function(){return Math.random()-.5})}
+  h='<h2>فرصة أخيرة</h2><p>كُشف المحتال <b class="imp">'+esc(nm(R.out))+'</b>. خمّن اللاعب السري لتكسب نقطتين:</p>';
+  R.opts.forEach(function(x,j){h+='<button class="opt" data-a="gs" data-j="'+j+'">'+esc(x)+'</button>'})}
+ if(S.scr=="result"){
+  var c=[],top=0,out=-1,tie=false;
+  for(var a=0;a<S.n;a++)c[a]=0;R.votes.forEach(function(x){c[x]++});
+  c.forEach(function(x){if(x>top)top=x});
+  var tops=c.map(function(x,ix){return x==top?ix:-1}).filter(function(x){return x>=0});
+  if(tops.length==1)out=tops[0];else tie=true;
+  var caught=out>=0&&R.ids.indexOf(out)>=0;R.out=out;if(caught&&R.gd===undefined){S.scr="guess";return draw()}
+  if(!R.scored){R.scored=1;R.votes.forEach(function(x,v){if(R.ids.indexOf(v)<0&&R.ids.indexOf(x)>=0)S.scores[v]=(S.scores[v]||0)+1});
+   if(!caught)R.ids.forEach(function(x){S.scores[x]=(S.scores[x]||0)+2})}
+  h='<h2>النتيجة</h2><div class="card"><p>اللاعب السري:</p><div class="big">'+esc(R.player)+'</div><p>المحتالون: <b class="imp">'+R.ids.map(function(x){return esc(nm(x))}).join("، ")+'</b></p><p>'+(tie?'تعادل الأصوات، فنجا المحتال.':'الأكثر أصواتًا: '+esc(nm(out))+(caught?' — كُشف المحتال! ✅':' — لم يكن محتالًا ❌'))+'</p>'+(R.gd===1?'<p>خمّن المحتال اللاعب بشكل صحيح! +2 نقطة.</p>':R.gd===0?'<p>أخطأ المحتال في التخمين.</p>':'')+'</div><div class="card"><table>'+c.map(function(x,ix){return'<tr><td>'+esc(nm(ix))+'</td><td>'+x+' صوت</td></tr>'}).join("")+'</table></div><button class="p" data-a="board">لوحة النقاط</button>'}
+ if(S.scr=="board"){
+  var last=S.r+1>=S.rounds,o=[];for(var q=0;q<S.n;q++)o.push([q,S.scores[q]||0]);o.sort(function(x,y){return y[1]-x[1]});
+  h='<h2>'+(last?'النتيجة النهائية 🏆':'لوحة النقاط')+'</h2><div class="card"><table>'+o.map(function(x,ix){return'<tr><td>'+(ix+1)+'</td><td>'+esc(nm(x[0]))+'</td><td>'+x[1]+'</td></tr>'}).join("")+'</table></div>';
+  if(last){h+='<button class="p" data-a="again">لعبة جديدة</button>';try{S.best=nm(o[0][0])+" ("+o[0][1]+")";localStorage.setItem(K,JSON.stringify({best:S.best}))}catch(e){}}
+  else h+='<button class="p" data-a="nr">الجولة التالية</button>'}
+ if(L=="en")h=tr(h);document.documentElement.lang=L;document.documentElement.dir=L=="en"?"ltr":"rtl";$.innerHTML=h;if(S.scr=="discuss")tick()}
+$.addEventListener("input",function(e){var i=e.target.getAttribute("data-i");if(i!==null)S.names[+i]=e.target.value});
+$.addEventListener("click",function(e){
+ var b=e.target.closest("[data-a]");if(!b)return;var a=b.getAttribute("data-a");
+ if(a=="setup")go("setup");
+ else if(a=="n-"){S.n=Math.max(3,S.n-1);draw()}else if(a=="n+"){S.n=Math.min(15,S.n+1);draw()}
+ else if(a=="i-"){S.imp=Math.max(1,S.imp-1);draw()}else if(a=="i+"){S.imp=Math.min(maxImp(),S.imp+1);draw()}
+ else if(a=="r-"){S.rounds=Math.max(1,S.rounds-1);draw()}else if(a=="r+"){S.rounds=Math.min(10,S.rounds+1);draw()}
+ else if(a.indexOf("m-")==0){S.mode=a.slice(2);draw()}else if(a=="hint"){S.hint=!S.hint;draw()}
+ else if(a.indexOf("tm-")==0){S.timer=+a.slice(3);draw()}
+ else if(a=="pk"){var k=b.getAttribute("data-k");S.packs[k]=!S.packs[k];draw()}
+ else if(a=="start"){S.r=0;S.scores={};newRound()}
+ else if(a=="show"){R.show=true;draw()}
+ else if(a=="next"){R.show=false;R.i++;if(R.i>=S.n)go("discuss");else draw()}
+ else if(a=="vote"){R.v=0;R.votes=[];go("vote")}
+ else if(a=="vt"){R.votes.push(+b.getAttribute("data-j"));R.v++;if(R.v>=S.n)go("result");else draw()}
+ else if(a=="gs"){R.gd=R.opts[+b.getAttribute("data-j")]==R.player?1:0;if(R.gd)R.ids.forEach(function(x){S.scores[x]=(S.scores[x]||0)+2});go("result")}
+ else if(a=="lang"){L=L=="en"?"ar":"en";try{localStorage.setItem(K+"l",L)}catch(e){}draw()}
+ else if(a=="board")go("board");
+ else if(a=="nr"){S.r++;newRound()}
+ else if(a=="again")go("setup");
+});
+draw();
+try{if("serviceWorker"in navigator&&location.protocol.indexOf("http")==0)navigator.serviceWorker.register("sw.js")}catch(e){}
+</script>
+</body>
+</html>
