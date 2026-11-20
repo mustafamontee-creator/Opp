@@ -1,7 +1,9 @@
 {
-  "appId": "com.impostorfc.game",
+  "appId": "com.mustafa.impostorfc",
   "appName": "المحتال FC",
   "webDir": "www",
   "backgroundColor": "#0f1713",
-  "android": { "allowMixedContent": false }
+  "android": {
+    "allowMixedContent": false
+  }
 }
